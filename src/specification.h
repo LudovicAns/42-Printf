@@ -6,9 +6,11 @@
 
 typedef struct s_specification
 {
-	char		c;
-	t_boolean	has_precision;
-	t_precision	precision;
+	char					definer;
+	t_boolean				has_precision;
+	t_precision				*precision;
+	t_boolean				has_print_configuration;
+	t_print_configuration	*print_configuration;
 }	t_specification;
 
 #endif
