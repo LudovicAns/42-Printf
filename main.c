@@ -11,5 +11,6 @@ int	main(void)
 	printf("Hello ! J'ai %20d euros\n", 25);
 	printf("Hello ! J'ai %.3d euros\n", 20);
 	printf("Hello ! J'ai %.d euros\n", 300);
+	ft_printf("%0852.25d dsfe %056%\n", 25);
 	return (0);
 }

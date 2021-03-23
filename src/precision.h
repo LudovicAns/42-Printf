@@ -3,7 +3,7 @@
 
 typedef struct s_precision
 {
-	int	i;
+	int	lenght;
 }	t_precision;
 
 #endif

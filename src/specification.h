@@ -3,6 +3,7 @@
 
 # include "precision.h"
 # include "boolean.h"
+# include "print_configuration.h"
 
 typedef struct s_specification
 {
