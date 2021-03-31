@@ -4,13 +4,9 @@
 
 int	main(void)
 {
-	printf("Hello ! J'ai %d ans\n", 19);
-	printf("Hello ! J'ai %1d euros\n", 3900);
-	printf("Hello ! J'ai %d euros\n", 200);
-	printf("Hello ! J'ai %020.4d euros\n", 10000);
-	printf("Hello ! J'ai %20d euros\n", 25);
-	printf("Hello ! J'ai %.3d euros\n", 20);
-	printf("Hello ! J'ai %.d euros\n", 300);
-	ft_printf("%0852.25d dsfe %056%\n", 25);
+	ft_printf("\n\n\n");
+	printf("J'ai %100.10d ans et j'ai %1d patates.\n", 10, 4, 5800, 200);
+	ft_printf("J'ai %20d ans et j'ai %1d patates.\n", 25, 5800);
+	//ft_printf("Avoir %3d euros est mon rêve !\n", 100000000);
 	return (0);
 }

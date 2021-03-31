@@ -1,7 +1,7 @@
 #include "ft_printf_utils.h"
 
 /*
- * Function: get_precision			1/5
+ * Function: get_precision						1/5
  * ----------------------------------------
  *   Returns the t_precision starting at start_address
  *
@@ -25,7 +25,7 @@ t_precision	*get_precision(char *start_address)
 }
 
 /*
- * Function: get_precision_size			2/5
+ * Function: get_precision_size					2/5
  * ----------------------------------------
  *   Returns the integer value of the precision
  *
@@ -98,7 +98,7 @@ t_print_configuration	*get_print_configuration(char *start_address)
 }
 
 /*
- * Function: get_print_size			4/5
+ * Function: get_print_size						4/5
  * ----------------------------------------
  *   Returns the integer value of the print_configuration
  *
@@ -136,4 +136,13 @@ int	get_print_size(char *start_address)
 	count = atoi(s);
 	free(s);
 	return (count);
+}
+
+void	secure_free(void *ptr)
+{
+	if (ptr)
+	{
+		free(ptr);
+		ptr = NULL;
+	}
 }

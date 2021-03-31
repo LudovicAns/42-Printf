@@ -26,6 +26,7 @@ typedef enum e_definer
 int						get_numspecification(const char *format);
 int						get_print_size(char *start_address);
 int						get_precision_size(char *start_address);
+int						ft_strlen(const char *s);
 t_boolean				is_definer(const char *start_address);
 t_boolean				is_precision(const char *start_address);
 t_boolean				is_print_configuration(const char *start_address);
@@ -34,9 +35,15 @@ t_boolean				is_specification(char c);
 void					printchar(char c);
 void					printstring(char *string);
 char					*get_specification_result(
-							t_specification *specification);
+							t_specification spec, va_list *args);
+char					*ft_itoa(int nb);
+char					*process_ddefiner(t_specification spec, va_list *args);
+char					*process_percenatgedefiner(t_specification spec,
+							va_list *args);
+char					*ft_strjoin(char const *s1, char const *s2);
 t_specification			get_specification(const char *start_address);
 t_print_configuration	*get_print_configuration(char *start_address);
 t_precision				*get_precision(char *start_address);
+void					secure_free(void *ptr);
 
 #endif

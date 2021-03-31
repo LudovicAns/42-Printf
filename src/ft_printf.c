@@ -5,12 +5,10 @@
 int	ft_printf(const char *format, ...)
 {
 	va_list			args;
-	int				numspec;
 	t_specification	spec;
+	char			*res;
 
 	va_start(args, format);
-	numspec = get_numspecification(format);
-	printf("numspec = %d\n", numspec);
 	while (*format)
 	{
 		if (is_specification(*format))
@@ -22,20 +20,13 @@ int	ft_printf(const char *format, ...)
 				format++;
 				continue ;
 			}
-			printf("pcong = %d | precision = %d | definer = %c\n",
-				spec.has_print_configuration, spec.has_precision,
-				spec.definer);
-			if (spec.has_print_configuration)
-			{
-				printf("zero filler = %d | size = %d\n",
-					spec.print_configuration->has_zero_filler,
-					spec.print_configuration->print_size);
-			}
-			if (spec.has_precision)
-			{
-				printf("precision size = %d\n",
-					spec.precision->lenght);
-			}
+			res = get_specification_result(spec, &args);
+			printstring(res);
+			// free res here
+			free(spec.print_configuration);
+			spec.print_configuration = NULL;
+			free(spec.precision);
+			spec.precision = NULL;
 			while (*format != spec.definer)
 				format++;
 			format++;
