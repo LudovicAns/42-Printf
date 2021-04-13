@@ -138,6 +138,15 @@ int	get_print_size(char *start_address)
 	return (count);
 }
 
+/*
+ * Function: secure_free						5/5
+ * ----------------------------------------
+ *   Free properly an address and excpet free null address
+ *
+ *   *ptr: address to free
+ *
+ *   returns: nothing
+ */
 void	secure_free(void *ptr)
 {
 	if (ptr)

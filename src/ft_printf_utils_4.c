@@ -1,5 +1,14 @@
 #include "ft_printf_utils.h"
 
+/*
+ * Function: ft_nbrlen							1/5
+ * ----------------------------------------
+ *   Return lenght of an integer
+ *
+ *   nb: integer
+ *
+ *   returns: lenght of nb
+ */
 static int	ft_nbrlen(int nb)
 {
 	unsigned int	nui;
@@ -23,6 +32,15 @@ static int	ft_nbrlen(int nb)
 	return (i);
 }
 
+/*
+ * Function: ft_itoa							2/5
+ * ----------------------------------------
+ *   Return integer value to *char
+ *
+ *   nb: integer
+ *
+ *   returns: *char of nb
+ */
 char	*ft_itoa(int nb)
 {
 	unsigned int	nui;
