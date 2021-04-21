@@ -2,22 +2,14 @@
 # define FT_PRINTF_UTILS_H
 
 # include "boolean.h"
+# include "identifier.h"
+# include "print_settings.h"
+# include "flag.h"
 # include <unistd.h>
 # include <stdarg.h>
 # include <stdlib.h>
 # include <stdio.h>
 
-typedef enum e_definer
-{
-	d = 'd',
-	x = 'x',
-	big_X = 'X',
-	c = 'c',
-	i = 'i',
-	u = 'u',
-	p = 'p',
-	s = 's',
-	percentage = '%'
-}	t_definer;
+t_boolean	is_format_identifier(char c);
 
 #endif
