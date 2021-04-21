@@ -12,4 +12,18 @@ typedef struct s_flag
 	t_boolean	has_sharp;
 }	t_flag;
 
+typedef enum e_flag_type
+{
+	LEFT_JUSTIFY = '-',
+	ZERO_FILLER = '0',
+	FORCE_POSITIVE = '+',
+	BLANK_ON_POSITIVE = ' ',
+	SHARP = '#'
+}	t_flag_type;
+
+t_boolean	is_flag_type(char c);
+t_flag_type	get_flag_type(char c);
+void		set_flag_type(t_flag_type flag_type, t_boolean bool, t_flag flag);
+t_flag		get_flag(char *start_address);
+
 #endif

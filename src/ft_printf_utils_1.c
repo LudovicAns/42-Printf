@@ -32,7 +32,12 @@ t_boolean	is_format_identifier(char c)
  */
 t_identifier	get_identifier(char *start_address, va_list args)
 {
-	// get flag [optional]
+	t_flag				flag;
+	t_print_settings	print_settings;
+	t_argument_type		argument_type;
+
+	start_address++;
+	flag = get_flag(start_address);
 	// get print settings [optional]
 	// get argument type [required]
 	// return identifier builded or NULL if argument type is invalid
