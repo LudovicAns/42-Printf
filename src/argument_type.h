@@ -10,7 +10,8 @@ typedef enum e_argument_type
 	i = 'i',
 	u = 'u',
 	x = 'x',
-	X = 'X'
+	X = 'X',
+	percentage = '%'
 }	t_argument_type;
 
 #endif
