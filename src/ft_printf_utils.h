@@ -10,6 +10,6 @@
 # include <stdlib.h>
 # include <stdio.h>
 
-t_boolean	is_format_identifier(char c);
+t_boolean		is_numeric(char c);
 
 #endif

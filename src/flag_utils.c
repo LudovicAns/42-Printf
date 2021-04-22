@@ -92,3 +92,19 @@ t_flag	get_flag(char *start_address)
 	}
 	return (flag);
 }
+
+/*
+ * Function: skip_flags							5/5
+ * ----------------------------------------
+ *   Skip all chars corresponding to a flag type.
+ *
+ *   start_address: string starting after format identifier
+ *
+ *   returns: start address with skipped flag type.
+ */
+char	*skip_flags(char *start_address)
+{
+	while (is_flag_type(*start_address))
+		start_address++;
+	return (start_address);
+}

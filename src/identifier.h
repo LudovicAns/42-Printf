@@ -15,4 +15,7 @@ typedef struct s_identifier
 	t_argument_type		argument_type;
 }	t_identifier;
 
+t_boolean		is_format_identifier(char c);
+t_identifier	get_identifier(char *start_address, va_list args);
+
 #endif

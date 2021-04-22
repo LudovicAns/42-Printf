@@ -11,4 +11,8 @@ typedef struct s_print_settings
 	int			precision_width;
 }	t_print_settings;
 
+t_boolean			is_print_settings(char c);
+t_print_settings	get_print_settings(char *start_address, va_list args);
+char				*skip_print_settings(char *start_address);
+
 #endif
