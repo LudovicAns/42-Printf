@@ -59,3 +59,21 @@ t_identifier	get_identifier(char *start_address, va_list args)
 		identifier.has_print_settings = FALSE;
 	return (identifier);
 }
+
+/*
+ * Function: skip_identifier					3/5
+ * ----------------------------------------
+ *   Skip all chars corresponding to an identifier.
+ *
+ *   start_address: string starting after format identifier
+ *   end: represent where we stop skipping
+ *
+ *   returns: start address with skipped identifier.
+ */
+char	*skip_identifier(char *start_address, char end)
+{
+	while (*start_address != end)
+		start_address++;
+	start_address++;
+	return (start_address);
+}

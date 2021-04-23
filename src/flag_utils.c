@@ -1,5 +1,4 @@
 #include "flag.h"
-#include "unistd.h"
 
 /*
  * Function: is_flag_type						1/5
@@ -26,7 +25,7 @@ t_boolean	is_flag_type(char c)
  *
  *   c: converted char
  *
- *   returns: t_flag_type if c is a valid flag type else NULL.
+ *   returns: t_flag_type of char c.
  */
 t_flag_type	get_flag_type(char c)
 {
@@ -38,10 +37,8 @@ t_flag_type	get_flag_type(char c)
 		return (FORCE_POSITIVE);
 	else if (c == BLANK_ON_POSITIVE)
 		return (BLANK_ON_POSITIVE);
-	else if (c == SHARP)
-		return (SHARP);
 	else
-		return (NULL);
+		return (SHARP);
 }
 
 /*
@@ -53,20 +50,20 @@ t_flag_type	get_flag_type(char c)
  *   bool: value to set in flag type
  *   flag: affected flag
  *
- *   returns: nothing
+ *   returns: modified t_flag
  */
-void	set_flag_type(t_flag_type flag_type, t_boolean bool, t_flag flag)
+void	set_flag_type(t_flag_type flag_type, t_boolean bool, t_flag *flag)
 {
 	if (flag_type == LEFT_JUSTIFY)
-		flag.has_left_justify = bool;
+		flag->has_left_justify = bool;
 	else if (flag_type == ZERO_FILLER)
-		flag.has_zero_filler = bool;
+		flag->has_zero_filler = bool;
 	else if (flag_type == FORCE_POSITIVE)
-		flag.has_force_positive = bool;
+		flag->has_force_positive = bool;
 	else if (flag_type == BLANK_ON_POSITIVE)
-		flag.has_blank_on_positive = bool;
+		flag->has_blank_on_positive = bool;
 	else if (flag_type == SHARP)
-		flag.has_sharp = bool;
+		flag->has_sharp = bool;
 }
 
 /*
@@ -81,13 +78,10 @@ void	set_flag_type(t_flag_type flag_type, t_boolean bool, t_flag flag)
 t_flag	get_flag(char *start_address)
 {
 	t_flag		flag;
-	t_boolean	has_flag;
 
-	has_flag = FALSE;
 	while (is_flag_type(*start_address))
 	{
-		has_flag = TRUE;
-		set_flag_type(get_flag_type(*start_address), TRUE, flag);
+		set_flag_type(get_flag_type(*start_address), TRUE, &flag);
 		start_address++;
 	}
 	return (flag);

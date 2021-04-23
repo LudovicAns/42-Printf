@@ -1,9 +1,63 @@
 #include "print_settings.h"
-#include "ft_printf_utils.h"
-#include <stdarg.h>
+
+static t_boolean	is_numeric(char c)
+{
+	if (c >= 48 && c <= 57)
+		return (TRUE);
+	return (FALSE);
+}
 
 /*
- * Function: is_print_settings					1/5
+ * Function: get_numeric_size					1/5
+ * ----------------------------------------
+ *   Return number of numeric chars at start address.
+ *
+ *   start_address: string starting with numeric char
+ *
+ *   returns: number of numeric chars.
+ */
+static int	get_numeric_size(char *start_address)
+{
+	int	count;
+
+	count = 0;
+	while (is_numeric(*start_address))
+	{
+		count++;
+		start_address++;
+	}
+	return (count);
+}
+
+/*
+ * Function: get_numeric_string					2/5
+ * ----------------------------------------
+ *   Return malloced string of numeric chars at start address.
+ *
+ *   start_address: string starting with numeric char
+ *
+ *   returns: malloced string of numeric chars or NULL if can't malloc.
+ */
+static char	*get_numeric_string(char *start_address)
+{
+	int		i;
+	char	*string;
+
+	i = get_numeric_size(start_address);
+	string = (char *)malloc(sizeof(char) * (i + 1));
+	if (!string)
+		return (NULL);
+	i = 0;
+	while (is_numeric(*start_address))
+	{
+		string[i++] = *start_address;
+		start_address++;
+	}
+	return (string);
+}
+
+/*
+ * Function: is_print_settings					3/5
  * ----------------------------------------
  *   Check if char c is a print settings.
  *
@@ -19,7 +73,7 @@ t_boolean	is_print_settings(char c)
 }
 
 /*
- * Function: get_print_settings					2/5
+ * Function: get_print_settings					4/5
  * ----------------------------------------
  *   Return builded print settings from start address.
  *
@@ -72,55 +126,6 @@ t_print_settings	get_print_settings(char *start_address, va_list args)
 	else
 		print_settings.has_precision_width = FALSE;
 	return (print_settings);
-}
-
-/*
- * Function: get_numeric_size					3/5
- * ----------------------------------------
- *   Return number of numeric chars at start address.
- *
- *   start_address: string starting with numeric char
- *
- *   returns: number of numeric chars.
- */
-static int	get_numeric_size(char *start_address)
-{
-	int	count;
-
-	count = 0;
-	while (is_numeric(*start_address))
-	{
-		count++;
-		start_address++;
-	}
-	return (count);
-}
-
-/*
- * Function: get_numeric_string					4/5
- * ----------------------------------------
- *   Return malloced string of numeric chars at start address.
- *
- *   start_address: string starting with numeric char
- *
- *   returns: malloced string of numeric chars or NULL if can't malloc.
- */
-static char	*get_numeric_string(char *start_address)
-{
-	int		i;
-	char	*string;
-
-	i = get_numeric_size(start_address);
-	string = (char *)malloc(sizeof(char) * (i + 1));
-	if (!string)
-		return (NULL);
-	i = 0;
-	while (is_numerics(*start_address))
-	{
-		string[i++] = *start_address;
-		start_address++;
-	}
-	return (string);
 }
 
 /*

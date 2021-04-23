@@ -17,5 +17,6 @@ typedef struct s_identifier
 
 t_boolean		is_format_identifier(char c);
 t_identifier	get_identifier(char *start_address, va_list args);
+char			*skip_identifier(char *start_address, char end);
 
 #endif

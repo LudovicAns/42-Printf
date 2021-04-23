@@ -7,7 +7,21 @@ CFLAGS = -Wall -Wextra -Werror
 # Value
 LIBNAME = libftprintf.a
 SRCDIR = src
-SRC = ft_printf.c ft_printf_utils_1.c flag_utils.c
+SRC = argument_type_utils.c \
+		flag_utils.c \
+		ft_printf_utils_1.c \
+		ft_printf.c \
+		identifier_utils.c \
+		print_settings_utils.c \
+		c_process.c \
+#		percentage_process.c \
+#		p_process.c \
+#		d_process.c \
+#		i_process.c \
+#		s_process.c \
+#		u_process.c \
+#		x_process.c \
+#		X_process.c
 OBJDIR = obj
 OBJ = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 
