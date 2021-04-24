@@ -13,10 +13,11 @@ SRC = argument_type_utils.c \
 		ft_printf.c \
 		identifier_utils.c \
 		print_settings_utils.c \
+		process_utils_1.c \
 		c_process.c \
+		d_process.c \
 #		percentage_process.c \
 #		p_process.c \
-#		d_process.c \
 #		i_process.c \
 #		s_process.c \
 #		u_process.c \
@@ -29,11 +30,11 @@ OBJ = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 all: $(LIBNAME)
 
 $(LIBNAME): init $(OBJ)
-	ar rc $@ $(OBJ)
-	ranlib $@
+	@ ar rc $@ $(OBJ)
+	@ ranlib $@
 
 init:
-	mkdir -p $(OBJDIR)
+	@ mkdir -p $(OBJDIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@ -I $(SRCDIR)/.

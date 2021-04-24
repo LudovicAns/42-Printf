@@ -1,10 +1,5 @@
 #include "ft_printf.h"
-
-static void	print_space(int nb)
-{
-	while (nb-- != 0)
-		print_char(' ');
-}
+#include "process_utils.h"
 
 /*
  * Function: process_c							2/5

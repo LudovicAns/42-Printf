@@ -79,6 +79,11 @@ t_flag	get_flag(char *start_address)
 {
 	t_flag		flag;
 
+	flag.has_blank_on_positive = FALSE;
+	flag.has_force_positive = FALSE;
+	flag.has_left_justify = FALSE;
+	flag.has_sharp = FALSE;
+	flag.has_zero_filler = FALSE;
 	while (is_flag_type(*start_address))
 	{
 		set_flag_type(get_flag_type(*start_address), TRUE, &flag);

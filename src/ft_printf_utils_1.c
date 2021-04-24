@@ -23,11 +23,12 @@ t_boolean	is_numeric(char c)
  *
  *   c: printed char
  *
- *   returns: nothing
+ *   returns: 1
  */
-void	print_char(char c)
+int	print_char(char c)
 {
 	write(0, &c, 1);
+	return (1);
 }
 
 /*
@@ -54,7 +55,7 @@ int	launch_associated_process(t_identifier identifier, va_list args)
 	else if (argument_type == p)
 		printed_chars = 0;
 	else if (argument_type == d)
-		printed_chars = 0;
+		printed_chars = process_d(identifier, args);
 	else if (argument_type == i)
 		printed_chars = 0;
 	else if (argument_type == u)
