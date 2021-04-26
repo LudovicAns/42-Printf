@@ -7,7 +7,7 @@
  *   Process identifier using c argument type.
  *
  *   identifier: identifier
- *   args = arguments list
+ *   args: arguments list
  *
  *   returns: number of printed chars.
  */
