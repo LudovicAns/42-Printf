@@ -53,7 +53,7 @@ int	launch_associated_process(t_identifier identifier, va_list args)
 	else if (argument_type == s)
 		printed_chars = 0;
 	else if (argument_type == p)
-		printed_chars = 0;
+		printed_chars = process_p(identifier,  args);
 	else if (argument_type == d)
 		printed_chars = process_d(identifier, args);
 	else if (argument_type == i)

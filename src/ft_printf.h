@@ -5,6 +5,7 @@
 # include "boolean.h"
 # include "print_settings.h"
 # include "flag.h"
+# include "process_utils.h"
 # include <unistd.h>
 # include <stdarg.h>
 # include <stdlib.h>
