@@ -61,9 +61,9 @@ int	launch_associated_process(t_identifier identifier, va_list args)
 	else if (argument_type == u)
 		printed_chars = process_u(identifier, args);
 	else if (argument_type == x)
-		printed_chars = 0;
+		printed_chars = process_x(identifier, args);
 	else if (argument_type == X)
-		printed_chars = 0;
+		printed_chars = process_X(identifier, args);
 	else
 		printed_chars = process_percentage();
 	return (printed_chars);

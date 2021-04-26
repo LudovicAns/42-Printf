@@ -21,8 +21,8 @@ SRC = argument_type_utils.c \
 		percentage_process.c \
 		s_process.c \
 		u_process.c \
-#		x_process.c \
-#		X_process.c
+		x_process.c \
+		X_process.c
 OBJDIR = obj
 OBJ = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 

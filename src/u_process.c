@@ -91,7 +91,7 @@ static int	get_print_size(t_identifier identifier, int nb)
 			size = identifier.print_settings.precision_width;
 	}
 	else
-		size = ft_nbrlen(nb);
+		size = ft_custom_nbrlen(nb);
 	return (size);
 }
 
@@ -127,11 +127,11 @@ static int	get_precision_size(t_identifier identifier)
  */
 int	process_u(t_identifier identifier, va_list args)
 {
-	char	*number;
-	int		i;
-	int		size;
-	int		psize;
-	int		count;
+	char			*number;
+	unsigned int	i;
+	int				size;
+	int				psize;
+	int				count;
 
 	i = va_arg(args, unsigned int);
 	number = ft_custom_itoa(i);
@@ -147,7 +147,7 @@ int	process_u(t_identifier identifier, va_list args)
 	if (identifier.has_flag && identifier.flag.has_left_justify)
 	{
 		if (identifier.has_flag
-			&& identifier.flag.has_force_positive && i >= 0)
+			&& identifier.flag.has_force_positive)
 		{
 			count += print_char('+');
 			size--;
@@ -156,8 +156,8 @@ int	process_u(t_identifier identifier, va_list args)
 		count += print_string(number);
 		if (psize > ft_custom_nbrlen(i))
 		{
-			if (i < 0 || (identifier.has_flag
-					&& identifier.flag.has_blank_on_positive && i > 0))
+			if (identifier.has_flag
+				&& identifier.flag.has_blank_on_positive && i > 0)
 			{
 				count += print_space((size - psize) - 1);
 			}
@@ -166,8 +166,8 @@ int	process_u(t_identifier identifier, va_list args)
 		}
 		else
 		{
-			if (i < 0 || (identifier.has_flag
-					&& identifier.flag.has_blank_on_positive && i > 0))
+			if (identifier.has_flag
+				&& identifier.flag.has_blank_on_positive && i > 0)
 			{
 				count += print_space(size - ft_custom_nbrlen(i) - 1);
 			}
@@ -182,7 +182,7 @@ int	process_u(t_identifier identifier, va_list args)
 				&& identifier.print_settings.has_precision_width))
 		{
 			if (identifier.has_flag
-				&& identifier.flag.has_force_positive && i >= 0)
+				&& identifier.flag.has_force_positive)
 			{
 				count += print_char('+');
 				size--;
@@ -196,8 +196,8 @@ int	process_u(t_identifier identifier, va_list args)
 		{
 			if (psize > ft_custom_nbrlen(i))
 			{
-				if (i < 0 || (identifier.has_flag
-						&& identifier.flag.has_force_positive && i > 0))
+				if (identifier.has_flag
+					&& identifier.flag.has_force_positive && i > 0)
 				{
 					count += print_space((size - psize) - 1);
 				}
@@ -206,8 +206,8 @@ int	process_u(t_identifier identifier, va_list args)
 			}
 			else
 			{
-				if (i < 0 || (identifier.has_flag
-						&& identifier.flag.has_force_positive && i > 0))
+				if (identifier.has_flag
+					&& identifier.flag.has_force_positive && i > 0)
 				{
 					count += print_space(size - ft_custom_nbrlen(i) - 1);
 				}
@@ -215,7 +215,7 @@ int	process_u(t_identifier identifier, va_list args)
 					count += print_space(size - ft_custom_nbrlen(i));
 			}
 			if (identifier.has_flag
-				&& identifier.flag.has_force_positive && i >= 0)
+				&& identifier.flag.has_force_positive)
 			{
 				count += print_char('+');
 				size--;
