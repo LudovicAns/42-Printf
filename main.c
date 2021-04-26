@@ -7,8 +7,8 @@ int	main(void)
 	int	realcount;
 	int	count;
 
-	count = ft_printf("CUSTOM   : |%-10.20s|\n", "Je suis une phrase de test.");
-	realcount = printf("ORIGINAL : |%-10.20s|\n", "Je suis une phrase de test.");
+	count = ft_printf("CUSTOM   : |%-u|\n", 42);
+	realcount = printf("ORIGINAL : |%-u|\n", 42);
 
 	printf("===============\nBilan:\n[CUSTOM] -> %d\n[ORIGINAL] -> %d\n===============\n", count, realcount);
 	return (0);
