@@ -19,7 +19,7 @@ int			process_c(t_identifier identifier, va_list args);
 int			process_d(t_identifier identifier, va_list args);
 int			process_i(t_identifier identifier, va_list args);
 int			process_p(t_identifier identifier, va_list args);
-int			process_percentage(t_identifier identifier, va_list args);
+int			process_percentage(void);
 int			process_s(t_identifier identifier, va_list args);
 int			process_u(t_identifier identifier, va_list args);
 int			process_x(t_identifier identifier, va_list args);

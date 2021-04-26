@@ -19,6 +19,7 @@ int	ft_printf(const char *format, ...)
 			{
 				argument_type = identifier.argument_type.argument_type_char;
 				count += launch_associated_process(identifier, args);
+				format++;
 				format = skip_identifier((char *)format, argument_type);
 				continue ;
 			}

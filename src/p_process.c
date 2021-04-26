@@ -60,6 +60,10 @@ static int	get_size(t_identifier identifier, unsigned long int nb)
 	int	size;
 
 	size = 0;
+	if (nb == 0 && identifier.has_print_settings
+		&& identifier.print_settings.has_min_field_width
+		&& identifier.print_settings.min_field_width < 5)
+		return (5);
 	if (identifier.has_print_settings
 		&& identifier.print_settings.has_min_field_width)
 		size = identifier.print_settings.min_field_width;
@@ -71,7 +75,32 @@ static int	get_size(t_identifier identifier, unsigned long int nb)
 }
 
 /*
- * Function: process_p							4/5
+ * Function: print_null_pointer						4/5
+ * ----------------------------------------
+ *   Print for null pointer.
+ *
+ *   identifier: identifier
+ *   size: print size
+ *
+ *   returns: number of printed chars.
+ */
+static int	print_null_pointer(t_identifier identifier, int size)
+{
+	if (identifier.has_flag && identifier.flag.has_left_justify)
+	{
+		print_string("(nil)");
+		print_space(size - 5);
+	}
+	else
+	{
+		print_space(size - 5);
+		print_string("(nil)");
+	}
+	return (size);
+}
+
+/*
+ * Function: process_p							5/5
  * ----------------------------------------
  *   Process identifier using p argument type.
  *
@@ -87,6 +116,8 @@ int	process_p(t_identifier identifier, va_list args)
 
 	nb = va_arg(args, unsigned long int);
 	size = get_size(identifier, nb);
+	if (nb == 0)
+		return (print_null_pointer(identifier, size));
 	if (identifier.has_flag && identifier.flag.has_left_justify)
 	{
 		print_string("0x");

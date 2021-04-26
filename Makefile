@@ -18,8 +18,8 @@ SRC = argument_type_utils.c \
 		d_process.c \
 		i_process.c \
 		p_process.c \
-#		percentage_process.c \
-#		s_process.c \
+		percentage_process.c \
+		s_process.c \
 #		u_process.c \
 #		x_process.c \
 #		X_process.c
