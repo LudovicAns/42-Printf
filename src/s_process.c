@@ -64,7 +64,7 @@ static int	get_print_size(t_identifier identifier, char *string)
 	{
 		if (identifier.print_settings.has_min_field_width)
 			size = identifier.print_settings.min_field_width;
-		else if (identifier.print_settings.has_precision_width)
+		else
 			size = identifier.print_settings.precision_width;
 		return (size);
 	}

@@ -240,5 +240,6 @@ int	process_d(t_identifier identifier, va_list args)
 		count += print_zero(psize - ft_custom_nbrlen(i, FALSE));
 		count += print_string(number);
 	}
+	free(number);
 	return (count);
 }

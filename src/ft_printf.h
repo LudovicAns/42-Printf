@@ -14,6 +14,7 @@
 int			ft_printf(const char *format, ...);
 t_boolean	is_numeric(char c);
 int			print_char(char c);
+int			ft_atoi(const char *nptr);
 int			launch_associated_process(t_identifier identifier, va_list args);
 int			process_c(t_identifier identifier, va_list args);
 int			process_d(t_identifier identifier, va_list args);

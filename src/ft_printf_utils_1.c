@@ -27,7 +27,7 @@ t_boolean	is_numeric(char c)
  */
 int	print_char(char c)
 {
-	write(0, &c, 1);
+	write(1, &c, 1);
 	return (1);
 }
 
@@ -46,7 +46,6 @@ int	launch_associated_process(t_identifier identifier, va_list args)
 	char	argument_type;
 	int		printed_chars;
 
-	args = args;
 	argument_type = identifier.argument_type.argument_type_char;
 	if (argument_type == c)
 		printed_chars = process_c(identifier, args);
@@ -67,4 +66,35 @@ int	launch_associated_process(t_identifier identifier, va_list args)
 	else
 		printed_chars = process_percentage();
 	return (printed_chars);
+}
+
+static int	ft_isspace(int c)
+{
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
+		|| c == '\r')
+		return (1);
+	return (0);
+}
+
+int	ft_atoi(const char *nptr)
+{
+	int		count;
+	int		sign;
+
+	if (!nptr)
+		return (0);
+	count = 0;
+	sign = 1;
+	while (ft_isspace(*nptr) && *nptr)
+		nptr++;
+	if (*nptr == '-' || *nptr == '+')
+	{
+		if (*nptr++ == '-')
+			sign = -1;
+		else
+			sign = 1;
+	}
+	while ((*nptr >= '0' && *nptr <= '9') && *nptr)
+		count = count * 10 + (*nptr++ - 48);
+	return (count * sign);
 }

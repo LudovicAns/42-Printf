@@ -24,7 +24,7 @@ typedef enum e_flag_type
 
 t_boolean	is_flag_type(char c);
 t_flag_type	get_flag_type(char c);
-void		set_flag_type(t_flag_type flag_type, t_boolean bool, t_flag *flag);
+void		set_flag_type(t_flag_type flag_type, t_boolean b, t_flag *flag);
 t_flag		get_flag(char *start_address);
 char		*skip_flags(char *start_address);
 

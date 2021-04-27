@@ -1,11 +1,5 @@
 #include "print_settings.h"
-
-static t_boolean	is_numeric(char c)
-{
-	if (c >= 48 && c <= 57)
-		return (TRUE);
-	return (FALSE);
-}
+#include "ft_printf.h"
 
 /*
  * Function: get_numeric_size					1/5
@@ -53,6 +47,7 @@ static char	*get_numeric_string(char *start_address)
 		string[i++] = *start_address;
 		start_address++;
 	}
+	string[i] = '\0';
 	return (string);
 }
 
@@ -91,8 +86,7 @@ t_print_settings	get_print_settings(char *start_address, va_list args)
 	{
 		num_string = get_numeric_string(start_address);
 		print_settings.has_min_field_width = TRUE;
-		// Don't forget to replace atoi by my own atoi.
-		print_settings.min_field_width = atoi(num_string);
+		print_settings.min_field_width = ft_atoi(num_string);
 		free(num_string);
 		num_string = NULL;
 		while (is_numeric(*start_address))
@@ -113,8 +107,7 @@ t_print_settings	get_print_settings(char *start_address, va_list args)
 		if (is_numeric(*start_address))
 		{
 			num_string = get_numeric_string(start_address);
-			// Don't forget to replace atoi by my own atoi.
-			print_settings.precision_width = atoi(num_string);
+			print_settings.precision_width = ft_atoi(num_string);
 			free(num_string);
 			num_string = NULL;
 		}
