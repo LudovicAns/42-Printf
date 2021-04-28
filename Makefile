@@ -26,12 +26,13 @@ SRC = argument_type_utils.c \
 OBJDIR = obj
 OBJ = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 
-
 all: $(LIBNAME)
 
 $(LIBNAME): init $(OBJ)
 	@ ar rc $@ $(OBJ)
 	@ ranlib $@
+
+bonus: all
 
 init:
 	@ mkdir -p $(OBJDIR)

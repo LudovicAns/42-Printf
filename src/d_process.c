@@ -149,7 +149,7 @@ int	process_d(t_identifier identifier, va_list args)
 	psize = get_precision_size(identifier);
 	count = 0;
 	if (identifier.has_flag && identifier.flag.has_blank_on_positive
-		&& i > 0 && !identifier.flag.has_force_positive)
+		&& i >= 0 && !identifier.flag.has_force_positive)
 	{
 		count += print_space(1);
 		size--;
@@ -172,8 +172,7 @@ int	process_d(t_identifier identifier, va_list args)
 			count += print_string(number);
 		if (psize > ft_custom_nbrlen(i, FALSE))
 		{
-			if (i < 0 || (identifier.has_flag
-					&& identifier.flag.has_blank_on_positive && i > 0))
+			if (i < 0)
 				count += print_space((size - psize) - 1);
 			else if (identifier.has_print_settings
 				&& identifier.print_settings.has_precision_width
@@ -185,8 +184,7 @@ int	process_d(t_identifier identifier, va_list args)
 		}
 		else
 		{
-			if (i < 0 || (identifier.has_flag
-					&& identifier.flag.has_blank_on_positive && i > 0))
+			if (i < 0)
 				count += print_space(size - ft_custom_nbrlen(i, FALSE) - 1);
 			else if (identifier.has_print_settings
 				&& identifier.print_settings.has_precision_width
@@ -221,7 +219,7 @@ int	process_d(t_identifier identifier, va_list args)
 			if (psize > ft_custom_nbrlen(i, FALSE))
 			{
 				if (i < 0 || (identifier.has_flag
-						&& identifier.flag.has_force_positive && i > 0))
+						&& identifier.flag.has_force_positive && i >= 0))
 					count += print_space((size - psize) - 1);
 				else if (identifier.has_print_settings
 					&& identifier.print_settings.has_precision_width
@@ -234,7 +232,7 @@ int	process_d(t_identifier identifier, va_list args)
 			else
 			{
 				if (i < 0 || (identifier.has_flag
-						&& identifier.flag.has_force_positive && i > 0))
+						&& identifier.flag.has_force_positive && i >= 0))
 					count += print_space(size - ft_custom_nbrlen(i, FALSE) - 1);
 				else if (identifier.has_print_settings
 					&& identifier.print_settings.has_precision_width

@@ -96,7 +96,10 @@ static int	print_null_pointer(t_identifier identifier, int size)
 		print_space(size - 5);
 		print_string("(nil)");
 	}
-	return (size);
+	if (size > 5)
+		return (size);
+	else
+		return (5);
 }
 
 /*

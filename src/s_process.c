@@ -38,6 +38,8 @@ static int	ft_strlen(char *string)
 	int	count;
 
 	count = 0;
+	if (!string)
+		return (0);
 	while (*string)
 	{
 		count++;
@@ -89,7 +91,32 @@ static int	get_psize(t_identifier identifier, char *string)
 }
 
 /*
- * Function: process_s							5/5
+ * Function: print_null_pointer						5/5
+ * ----------------------------------------
+ *   Print for null pointer.
+ *
+ *   identifier: identifier
+ *   size: print size
+ *
+ *   returns: number of printed chars.
+ */
+static int	print_null_pointer(t_identifier identifier, int size)
+{
+	if (identifier.has_flag && identifier.flag.has_left_justify)
+	{
+		print_string("(null)");
+		print_space(size - 6);
+	}
+	else
+	{
+		print_space(size - 6);
+		print_string("(null)");
+	}
+	return (size + 6);
+}
+
+/*
+ * Function: process_s							6/5
  * ----------------------------------------
  *   Process identifier using s argument type.
  *
@@ -108,6 +135,8 @@ int	process_s(t_identifier identifier, va_list args)
 	count = 0;
 	string = va_arg(args, char *);
 	size = get_print_size(identifier, string);
+	if (!string)
+		return (print_null_pointer(identifier, size));
 	psize = get_psize(identifier, string);
 	if (identifier.has_flag && identifier.flag.has_left_justify)
 	{
