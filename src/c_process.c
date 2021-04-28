@@ -19,8 +19,15 @@ int	process_c(t_identifier identifier, va_list args)
 	size = 1;
 	c = va_arg(args, int);
 	if (identifier.has_print_settings
-		&& identifier.print_settings.has_min_field_width)
+		&& identifier.print_settings.has_min_field_width
+		&& identifier.print_settings.min_field_width != 0)
 		size = identifier.print_settings.min_field_width;
+	if (size < 0)
+	{
+		size *= -1;
+		identifier.has_flag = TRUE;
+		identifier.flag.has_left_justify = TRUE;
+	}
 	if (identifier.has_flag && identifier.flag.has_left_justify)
 	{
 		print_char(c);

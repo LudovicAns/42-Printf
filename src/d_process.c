@@ -165,14 +165,21 @@ int	process_d(t_identifier identifier, va_list args)
 			size--;
 		}
 		count += print_zero(psize - ft_custom_nbrlen(i, FALSE));
-		count += print_string(number);
-		if (psize > ft_custom_nbrlen(i, TRUE))
+		if (!(identifier.has_print_settings
+				&& identifier.print_settings.has_precision_width
+				&& identifier.print_settings.precision_width == 0)
+			|| i != 0)
+			count += print_string(number);
+		if (psize > ft_custom_nbrlen(i, FALSE))
 		{
 			if (i < 0 || (identifier.has_flag
 					&& identifier.flag.has_blank_on_positive && i > 0))
-			{
 				count += print_space((size - psize) - 1);
-			}
+			else if (identifier.has_print_settings
+				&& identifier.print_settings.has_precision_width
+				&& identifier.print_settings.precision_width == 0
+				&& i == 0)
+				count += print_space(size);
 			else
 				count += print_space(size - psize);
 		}
@@ -180,9 +187,12 @@ int	process_d(t_identifier identifier, va_list args)
 		{
 			if (i < 0 || (identifier.has_flag
 					&& identifier.flag.has_blank_on_positive && i > 0))
-			{
 				count += print_space(size - ft_custom_nbrlen(i, FALSE) - 1);
-			}
+			else if (identifier.has_print_settings
+				&& identifier.print_settings.has_precision_width
+				&& identifier.print_settings.precision_width == 0
+				&& i == 0)
+				count += print_space(size);
 			else
 				count += print_space(size - ft_custom_nbrlen(i, FALSE));
 		}
@@ -208,13 +218,16 @@ int	process_d(t_identifier identifier, va_list args)
 		}
 		else
 		{
-			if (psize > ft_custom_nbrlen(i, TRUE))
+			if (psize > ft_custom_nbrlen(i, FALSE))
 			{
 				if (i < 0 || (identifier.has_flag
 						&& identifier.flag.has_force_positive && i > 0))
-				{
 					count += print_space((size - psize) - 1);
-				}
+				else if (identifier.has_print_settings
+					&& identifier.print_settings.has_precision_width
+					&& identifier.print_settings.precision_width == 0
+					&& i == 0)
+					count += print_space(size);
 				else
 					count += print_space(size - psize);
 			}
@@ -222,9 +235,12 @@ int	process_d(t_identifier identifier, va_list args)
 			{
 				if (i < 0 || (identifier.has_flag
 						&& identifier.flag.has_force_positive && i > 0))
-				{
 					count += print_space(size - ft_custom_nbrlen(i, FALSE) - 1);
-				}
+				else if (identifier.has_print_settings
+					&& identifier.print_settings.has_precision_width
+					&& identifier.print_settings.precision_width == 0
+					&& i == 0)
+					count += print_space(size);
 				else
 					count += print_space(size - ft_custom_nbrlen(i, FALSE));
 			}
@@ -238,7 +254,11 @@ int	process_d(t_identifier identifier, va_list args)
 			}
 		}
 		count += print_zero(psize - ft_custom_nbrlen(i, FALSE));
-		count += print_string(number);
+		if (!(identifier.has_print_settings
+				&& identifier.print_settings.has_precision_width
+				&& identifier.print_settings.precision_width == 0)
+			|| i != 0)
+			count += print_string(number);
 	}
 	free(number);
 	return (count);

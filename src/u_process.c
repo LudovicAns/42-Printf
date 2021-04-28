@@ -133,7 +133,7 @@ int	process_u(t_identifier identifier, va_list args)
 	int				psize;
 	int				count;
 
-	i = va_arg(args, unsigned int);
+	i = va_arg(args, int);
 	number = ft_custom_itoa(i);
 	size = get_print_size(identifier, i);
 	psize = get_precision_size(identifier);
@@ -153,14 +153,21 @@ int	process_u(t_identifier identifier, va_list args)
 			size--;
 		}
 		count += print_zero(psize - ft_custom_nbrlen(i));
-		count += print_string(number);
+		if (!(identifier.has_print_settings
+				&& identifier.print_settings.has_precision_width
+				&& identifier.print_settings.precision_width == 0)
+			|| i != 0)
+			count += print_string(number);
 		if (psize > ft_custom_nbrlen(i))
 		{
 			if (identifier.has_flag
 				&& identifier.flag.has_blank_on_positive && i > 0)
-			{
 				count += print_space((size - psize) - 1);
-			}
+			else if (identifier.has_print_settings
+				&& identifier.print_settings.has_precision_width
+				&& identifier.print_settings.precision_width == 0
+				&& i == 0)
+				count += print_space(size);
 			else
 				count += print_space(size - psize);
 		}
@@ -168,9 +175,12 @@ int	process_u(t_identifier identifier, va_list args)
 		{
 			if (identifier.has_flag
 				&& identifier.flag.has_blank_on_positive && i > 0)
-			{
 				count += print_space(size - ft_custom_nbrlen(i) - 1);
-			}
+			else if (identifier.has_print_settings
+				&& identifier.print_settings.has_precision_width
+				&& identifier.print_settings.precision_width == 0
+				&& i == 0)
+				count += print_space(size);
 			else
 				count += print_space(size - ft_custom_nbrlen(i));
 		}
@@ -198,9 +208,12 @@ int	process_u(t_identifier identifier, va_list args)
 			{
 				if (identifier.has_flag
 					&& identifier.flag.has_force_positive && i > 0)
-				{
 					count += print_space((size - psize) - 1);
-				}
+				else if (identifier.has_print_settings
+					&& identifier.print_settings.has_precision_width
+					&& identifier.print_settings.precision_width == 0
+					&& i == 0)
+					count += print_space(size);
 				else
 					count += print_space(size - psize);
 			}
@@ -208,9 +221,12 @@ int	process_u(t_identifier identifier, va_list args)
 			{
 				if (identifier.has_flag
 					&& identifier.flag.has_force_positive && i > 0)
-				{
 					count += print_space(size - ft_custom_nbrlen(i) - 1);
-				}
+				else if (identifier.has_print_settings
+					&& identifier.print_settings.has_precision_width
+					&& identifier.print_settings.precision_width == 0
+					&& i == 0)
+					count += print_space(size);
 				else
 					count += print_space(size - ft_custom_nbrlen(i));
 			}
@@ -222,7 +238,12 @@ int	process_u(t_identifier identifier, va_list args)
 			}
 		}
 		count += print_zero(psize - ft_custom_nbrlen(i));
-		count += print_string(number);
+		if (!(identifier.has_print_settings
+				&& identifier.print_settings.has_precision_width
+				&& identifier.print_settings.precision_width == 0)
+			|| i != 0)
+			count += print_string(number);
 	}
+	free(number);
 	return (count);
 }

@@ -65,7 +65,12 @@ static int	get_print_size(t_identifier identifier, char *string)
 		if (identifier.print_settings.has_min_field_width)
 			size = identifier.print_settings.min_field_width;
 		else
-			size = identifier.print_settings.precision_width;
+		{
+			if (ft_strlen(string) >= identifier.print_settings.precision_width)
+				size = identifier.print_settings.precision_width;
+			else
+				size = ft_strlen(string);
+		}
 		return (size);
 	}
 	else
@@ -107,13 +112,19 @@ int	process_s(t_identifier identifier, va_list args)
 	if (identifier.has_flag && identifier.flag.has_left_justify)
 	{
 		count += custom_print_string(string, psize);
-		count += print_space(size
-				- (ft_strlen(string) - (ft_strlen(string) - psize)));
+		if (psize <= ft_strlen(string))
+			count += print_space(size
+					- (ft_strlen(string) - (ft_strlen(string) - psize)));
+		else
+			count += print_space(size - ft_strlen(string));
 	}
 	else
 	{
-		count += print_space(size
-				- (ft_strlen(string) - (ft_strlen(string) - psize)));
+		if (psize <= ft_strlen(string))
+			count += print_space(size
+					- (ft_strlen(string) - (ft_strlen(string) - psize)));
+		else
+			count += print_space(size - ft_strlen(string));
 		count += custom_print_string(string, psize);
 	}
 	return (count);

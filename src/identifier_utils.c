@@ -57,6 +57,14 @@ t_identifier	get_identifier(char *start_address, va_list args)
 		identifier.has_print_settings = TRUE;
 	else
 		identifier.has_print_settings = FALSE;
+	if (identifier.has_print_settings
+		&& identifier.print_settings.has_min_field_width
+		&& identifier.print_settings.min_field_width < 0)
+	{
+		identifier.print_settings.min_field_width *= -1;
+		identifier.has_flag = TRUE;
+		identifier.flag.has_left_justify = TRUE;
+	}
 	return (identifier);
 }
 
