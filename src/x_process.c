@@ -9,7 +9,7 @@
  *
  *   returns: lenght of the number.
  */
-static int	ft_custom_nbrlen(unsigned int nb)
+static unsigned int	ft_custom_nbrlen(unsigned int nb)
 {
 	unsigned int	nui;
 	unsigned int	i;
@@ -117,132 +117,111 @@ static int	get_precision_size(t_identifier identifier)
 	return (psize);
 }
 
+static int	ft_abs(int i)
+{
+	if (i < 0)
+		return (i * -1);
+	return (i);
+}
+
+static void	*get_funcomplete(t_identifier identifier)
+{
+	if (identifier.has_flag && identifier.flag.has_zero_filler)
+	{
+		if (identifier.flag.has_left_justify)
+			return (print_space);
+		else if (identifier.has_print_settings
+			&& identifier.print_settings.has_precision_width)
+			return (print_space);
+		else
+			return (print_zero);
+	}
+	return (print_space);
+}
+
 /*
- * Function: process_x							5/5
+ * Function: process_u							5/5
  * ----------------------------------------
- *   Process identifier using x argument type.
+ *   Process identifier using u argument type.
  *
  *   identifier: identifier
- *   args = arguments list
+ *   args: arguments list
+ * 
+ *   i[0] : nb in args
+ *   i[1] : total print size
+ *   i[2] : precision size
+ *   i[3] : count
+ * 
+ *   %-0*.*d
  *
  *   returns: number of printed chars.
  */
 int	process_x(t_identifier identifier, va_list args)
 {
-	char				*number;
-	unsigned int		i;
-	int					size;
-	int					psize;
-	int					count;
+	char			*number;
+	unsigned int	i[4];
+	int				(*complete)(int);
 
-	i = va_arg(args, unsigned int);
-	number = ft_custom_itoa(i);
-	size = get_print_size(identifier, i);
-	psize = get_precision_size(identifier);
-	count = 0;
+	i[0] = va_arg(args, unsigned int);
+	i[1] = get_print_size(identifier, i[0]);
+	i[2] = get_precision_size(identifier);
+	i[3] = 0;
+	number = ft_custom_itoa(i[0]);
+	complete = get_funcomplete(identifier);
+	if (identifier.flag.has_blank_on_positive)
+		i[3] += print_space(1);
 	if (identifier.has_flag && identifier.flag.has_left_justify)
 	{
-		if (identifier.has_flag && identifier.flag.has_sharp && i != 0)
-			count += print_string("0x");
-		count += print_zero(psize - ft_custom_nbrlen(i));
+		if (identifier.flag.has_force_positive)
+			i[3] += print_char('+');
+		if (identifier.flag.has_sharp && i[0] != 0)
+			i[3] += print_string("0x");
+		i[3] += print_zero(i[2] - ft_custom_nbrlen(i[0]));
 		if (!(identifier.has_print_settings
 				&& identifier.print_settings.has_precision_width
-				&& identifier.print_settings.precision_width == 0)
-			|| i != 0)
-			count += print_string(number);
-		if (psize > ft_custom_nbrlen(i))
-		{
-			if (identifier.has_flag
-				&& identifier.flag.has_sharp && i != 0)
-				count += print_space((size - psize) - 2);
-			else if (identifier.has_print_settings
-				&& identifier.print_settings.has_precision_width
-				&& identifier.print_settings.precision_width == 0
-				&& i == 0)
-				count += print_space(size);
-			else
-				count += print_space(size - psize);
-		}
-		else
-		{
-			if (identifier.has_flag
-				&& identifier.flag.has_blank_on_positive)
-				count += print_space(size - ft_custom_nbrlen(i) - 1);
-			else if (identifier.has_print_settings
-				&& identifier.print_settings.has_precision_width
-				&& identifier.print_settings.precision_width == 0
-				&& i == 0)
-				count += print_space(size);
-			else if (identifier.flag.has_sharp && i != 0)
-			{
-				if (psize > ft_custom_nbrlen(i) + 2)
-					count += print_zero(size - psize);
-				else
-					count += print_zero(size - (ft_custom_nbrlen(i) + 2));
-			}
-			else
-				count += print_space(size - ft_custom_nbrlen(i));
-		}
+				&& identifier.print_settings.precision_width == 0 && i[0] == 0))
+			i[3] += print_string(number);
+		if (i[3] < i[1])
+			i[3] += complete(i[1] - i[3]);
 	}
 	else
 	{
-		if (identifier.has_flag && identifier.flag.has_zero_filler
-			&& !(identifier.has_print_settings
-				&& identifier.print_settings.has_precision_width))
+		if (ft_custom_nbrlen(i[0]) < i[1] && i[1] > i[2])
 		{
-			if (identifier.flag.has_sharp && i != 0)
+			if (i[2] < ft_custom_nbrlen(i[0]))
 			{
-				if (psize > ft_custom_nbrlen(i) + 2)
-					count += print_zero(size - psize);
+				if (identifier.flag.has_force_positive && i[3] == 0)
+					i[3] += complete((i[1] - i[3])
+							- ft_abs(i[2] - ft_custom_nbrlen(i[0])) - i[2] - 1);
+				else if (identifier.flag.has_sharp && i[0] != 0)
+					i[3] += complete((i[1] - i[3])
+							- ft_abs(i[2] - ft_custom_nbrlen(i[0])) - i[2] - 2);
 				else
-					count += print_zero(size - (ft_custom_nbrlen(i) + 2));
+					i[3] += complete((i[1] - i[3])
+							- ft_abs(i[2] - ft_custom_nbrlen(i[0])) - i[2]);
 			}
 			else
 			{
-				if (psize > ft_custom_nbrlen(i))
-					count += print_zero(size - psize);
+				if (identifier.flag.has_force_positive && i[3] == 0)
+					i[3] += complete((i[1] - i[3]) - i[2] - 1);
+				else if (identifier.flag.has_sharp && i[0] != 0)
+					i[3] += complete((i[1] - i[3]) - i[2] - 2);
 				else
-					count += print_zero(size - ft_custom_nbrlen(i));
+					i[3] += complete((i[1] - i[3]) - i[2]);
 			}
 		}
-		else
-		{
-			if (psize > ft_custom_nbrlen(i))
-			{
-				if (identifier.has_flag
-					&& identifier.flag.has_sharp && i != 0)
-					count += print_space((size - psize) - 2);
-				else if (identifier.has_print_settings
-					&& identifier.print_settings.has_precision_width
-					&& identifier.print_settings.precision_width == 0
-					&& i == 0)
-					count += print_space(size);
-				else
-					count += print_space(size - psize);
-			}
-			else
-			{
-				if (identifier.has_flag
-					&& identifier.flag.has_sharp && i != 0)
-					count += print_space(size - ft_custom_nbrlen(i) - 2);
-				else if (identifier.has_print_settings
-					&& identifier.print_settings.has_precision_width
-					&& identifier.print_settings.precision_width == 0
-					&& i == 0)
-					count += print_space(size);
-				else
-					count += print_space(size - ft_custom_nbrlen(i));
-			}
-		}
-		if (identifier.has_flag && identifier.flag.has_sharp && i != 0)
-			count += print_string("0x");
-		count += print_zero(psize - ft_custom_nbrlen(i));
+		if (identifier.flag.has_force_positive)
+			i[3] += print_char('+');
+		if (identifier.flag.has_sharp && i[0] != 0)
+			i[3] += print_string("0x");
+		i[3] += print_zero(i[2] - ft_custom_nbrlen(i[0]));
 		if (!(identifier.has_print_settings
 				&& identifier.print_settings.has_precision_width
-				&& identifier.print_settings.precision_width == 0)
-			|| i != 0)
-			count += print_string(number);
+				&& identifier.print_settings.precision_width == 0 && i[0] == 0))
+			i[3] += print_string(number);
+		else
+			i[3] += complete(i[1] - i[3]);
 	}
 	free(number);
-	return (count);
+	return (i[3]);
 }
