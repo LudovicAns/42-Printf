@@ -111,7 +111,8 @@ static int	get_precision_size(t_identifier identifier)
 
 	psize = 0;
 	if (identifier.has_print_settings
-		&& identifier.print_settings.has_precision_width)
+		&& identifier.print_settings.has_precision_width
+		&& identifier.print_settings.precision_width >= 0)
 		psize = identifier.print_settings.precision_width;
 	return (psize);
 }
@@ -130,7 +131,8 @@ static void	*get_funcomplete(t_identifier identifier)
 		if (identifier.flag.has_left_justify)
 			return (print_space);
 		else if (identifier.has_print_settings
-			&& identifier.print_settings.has_precision_width)
+			&& identifier.print_settings.has_precision_width
+			&& identifier.print_settings.precision_width >= 0)
 			return (print_space);
 		else
 			return (print_zero);

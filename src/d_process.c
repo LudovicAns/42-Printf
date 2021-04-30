@@ -120,7 +120,8 @@ static int	get_precision_size(t_identifier identifier)
 
 	psize = 0;
 	if (identifier.has_print_settings
-		&& identifier.print_settings.has_precision_width)
+		&& identifier.print_settings.has_precision_width
+		&& identifier.print_settings.precision_width >= 0)
 		psize = identifier.print_settings.precision_width;
 	return (psize);
 }
@@ -139,7 +140,8 @@ static void	*get_funcomplete(t_identifier identifier)
 		if (identifier.flag.has_left_justify)
 			return (print_space);
 		else if (identifier.has_print_settings
-			&& identifier.print_settings.has_precision_width)
+			&& identifier.print_settings.has_precision_width
+			&& identifier.print_settings.precision_width >= 0)
 			return (print_space);
 		else
 			return (print_zero);
@@ -176,17 +178,13 @@ int	process_d(t_identifier identifier, va_list args)
 	i[3] = 0;
 	number = ft_custom_itoa(i[0]);
 	complete = get_funcomplete(identifier);
-	if (i[0] < 0 && identifier.flag.has_zero_filler
-		&& !(identifier.has_print_settings
-			&& identifier.print_settings.has_precision_width))
+	if (i[0] < 0 && complete == print_zero)
 		i[3] += print_char('-');
 	if (i[0] >= 0 && identifier.flag.has_blank_on_positive)
 		i[3] += print_space(1);
 	if (identifier.has_flag && identifier.flag.has_left_justify)
 	{
-		if (i[0] < 0 && (!identifier.flag.has_zero_filler
-				|| (identifier.has_print_settings
-					&& identifier.print_settings.has_precision_width)))
+		if (i[0] < 0 && !(complete == print_zero))
 			i[3] += print_char('-');
 		if (i[0] >= 0 && identifier.flag.has_force_positive)
 			i[3] += print_char('+');
@@ -195,6 +193,8 @@ int	process_d(t_identifier identifier, va_list args)
 				&& identifier.print_settings.has_precision_width
 				&& identifier.print_settings.precision_width == 0 && i[0] == 0))
 			i[3] += print_string(number);
+		else
+			i[3] += complete(i[1] - i[3]);
 		if (i[3] < i[1])
 			i[3] += complete(i[1] - i[3]);
 	}
@@ -208,10 +208,12 @@ int	process_d(t_identifier identifier, va_list args)
 							&& identifier.flag.has_force_positive))
 					&& i[3] == 0)
 					i[3] += complete((i[1] - i[3])
-							- ft_abs(i[2] - ft_custom_nbrlen(i[0], FALSE)) - 1);
+							- ft_abs(i[2] - ft_custom_nbrlen(i[0], FALSE)
+								- i[2]) - 1);
 				else
 					i[3] += complete((i[1] - i[3])
-							- ft_abs(i[2] - ft_custom_nbrlen(i[0], FALSE)));
+							- ft_abs(i[2] - ft_custom_nbrlen(i[0], FALSE)
+								- i[2]));
 			}
 			else
 			{
@@ -223,9 +225,7 @@ int	process_d(t_identifier identifier, va_list args)
 					i[3] += complete((i[1] - i[3]) - i[2]);
 			}
 		}
-		if (i[0] < 0 && (!identifier.flag.has_zero_filler
-				|| (identifier.has_print_settings
-					&& identifier.print_settings.has_precision_width)))
+		if (i[0] < 0 && !(complete == print_zero))
 			i[3] += print_char('-');
 		if (i[0] >= 0 && identifier.flag.has_force_positive)
 			i[3] += print_char('+');
@@ -235,7 +235,7 @@ int	process_d(t_identifier identifier, va_list args)
 				&& identifier.print_settings.precision_width == 0 && i[0] == 0))
 			i[3] += print_string(number);
 		else
-			i[3] += complete(i[1] - i[3]);
+			i[3] += print_space(i[1] - i[3]);
 	}
 	free(number);
 	return (i[3]);
