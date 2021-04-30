@@ -39,7 +39,7 @@ static int	ft_strlen(char *string)
 
 	count = 0;
 	if (!string)
-		return (0);
+		return (6);
 	while (*string)
 	{
 		count++;
@@ -100,19 +100,12 @@ static int	get_psize(t_identifier identifier, char *string)
  *
  *   returns: number of printed chars.
  */
-static int	print_null_pointer(t_identifier identifier, int size)
+static int	print_null_pointer(t_identifier identifier, int psize)
 {
-	if (identifier.has_flag && identifier.flag.has_left_justify)
-	{
-		print_string("(null)");
-		print_space(size - 6);
-	}
-	else
-	{
-		print_space(size - 6);
-		print_string("(null)");
-	}
-	return (size + 6);
+	identifier = identifier;
+	if (psize < 6 && psize >= 0)
+		return (0);
+	return (print_string("(null)"));
 }
 
 /*
@@ -135,26 +128,30 @@ int	process_s(t_identifier identifier, va_list args)
 	count = 0;
 	string = va_arg(args, char *);
 	size = get_print_size(identifier, string);
-	if (!string)
-		return (print_null_pointer(identifier, size));
 	psize = get_psize(identifier, string);
 	if (identifier.has_flag && identifier.flag.has_left_justify)
 	{
-		count += custom_print_string(string, psize);
-		if (psize <= ft_strlen(string))
-			count += print_space(size
-					- (ft_strlen(string) - (ft_strlen(string) - psize)));
+		if (string)
+		{
+			count += custom_print_string(string, psize);
+			count += print_space(size - count);
+		}
 		else
-			count += print_space(size - ft_strlen(string));
+		{
+			count += print_null_pointer(identifier, psize);
+			count += print_space(size - count);
+		}
 	}
 	else
 	{
-		if (psize <= ft_strlen(string))
-			count += print_space(size
-					- (ft_strlen(string) - (ft_strlen(string) - psize)));
+		if (psize < ft_strlen(string) && psize >= 0)
+			count += print_space(size - psize);
 		else
 			count += print_space(size - ft_strlen(string));
-		count += custom_print_string(string, psize);
+		if (string)
+			count += custom_print_string(string, psize);
+		else
+			count += print_null_pointer(identifier, psize);
 	}
 	return (count);
 }

@@ -10,5 +10,6 @@ char	*ft_itoa(int nb);
 int		print_string(char *string);
 int		print_space(int nb);
 int		print_zero(int nb);
+int		ft_abs(int i);
 
 #endif
