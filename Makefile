@@ -16,6 +16,7 @@ SRC = argument_type_utils.c \
 		process_utils_1.c \
 		c_process.c \
 		d_process.c \
+		d_process2.c \
 		i_process.c \
 		p_process.c \
 		percentage_process.c \

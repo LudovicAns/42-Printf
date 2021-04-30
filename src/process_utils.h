@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   process_utils.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lanselin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/30 08:25:49 by lanselin          #+#    #+#             */
+/*   Updated: 2021/04/30 08:25:50 by lanselin         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PROCESS_UTILS_H
 # define PROCESS_UTILS_H
 
@@ -10,5 +22,6 @@ char	*ft_itoa(int nb);
 int		print_string(char *string);
 int		print_space(int nb);
 int		print_zero(int nb);
+int		ft_abs(int i);
 
 #endif

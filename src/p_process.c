@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   p_process.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lanselin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/30 08:25:37 by lanselin          #+#    #+#             */
+/*   Updated: 2021/04/30 08:25:38 by lanselin         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 /*
@@ -13,6 +25,8 @@ static int	ft_nbhex_len(unsigned long int nb)
 {
 	int	count;
 
+	if (nb == 0)
+		return (1);
 	count = 0;
 	while (nb)
 	{
@@ -29,20 +43,23 @@ static int	ft_nbhex_len(unsigned long int nb)
  *
  *   nb: number
  *
- *   returns: nothing
+ *   returns: number of printed chars.
  */
-void	print_pointer(unsigned long int nb)
+int	print_pointer(unsigned long int nb)
 {
 	char	*base;
+	int		count;
 
+	count = 0;
 	base = "0123456789abcdef";
 	if (nb > 15)
 	{
-		print_pointer(nb / 16);
-		print_pointer(nb % 16);
+		count += print_pointer(nb / 16);
+		count += print_pointer(nb % 16);
 	}
 	if (nb < 16)
-		print_char(base[nb]);
+		count += print_char(base[nb]);
+	return (count);
 }
 
 /*
@@ -59,11 +76,7 @@ static int	get_size(t_identifier identifier, unsigned long int nb)
 {
 	int	size;
 
-	size = 0;
-	if (nb == 0 && identifier.has_print_settings
-		&& identifier.print_settings.has_min_field_width
-		&& identifier.print_settings.min_field_width < 5)
-		return (5);
+	size = 1;
 	if (identifier.has_print_settings
 		&& identifier.print_settings.has_min_field_width)
 		size = identifier.print_settings.min_field_width;
@@ -72,34 +85,6 @@ static int	get_size(t_identifier identifier, unsigned long int nb)
 	if (size < ft_nbhex_len(nb) + 2)
 		size = ft_nbhex_len(nb) + 2;
 	return (size);
-}
-
-/*
- * Function: print_null_pointer						4/5
- * ----------------------------------------
- *   Print for null pointer.
- *
- *   identifier: identifier
- *   size: print size
- *
- *   returns: number of printed chars.
- */
-static int	print_null_pointer(t_identifier identifier, int size)
-{
-	if (identifier.has_flag && identifier.flag.has_left_justify)
-	{
-		print_string("(nil)");
-		print_space(size - 5);
-	}
-	else
-	{
-		print_space(size - 5);
-		print_string("(nil)");
-	}
-	if (size > 5)
-		return (size);
-	else
-		return (5);
 }
 
 /*
@@ -116,22 +101,24 @@ int	process_p(t_identifier identifier, va_list args)
 {
 	unsigned long int	nb;
 	int					size;
+	int					count;
 
 	nb = va_arg(args, unsigned long int);
 	size = get_size(identifier, nb);
-	if (nb == 0)
-		return (print_null_pointer(identifier, size));
+	count = 0;
+	//if (nb == 0)
+	//	return (print_null_pointer(identifier, size));
 	if (identifier.has_flag && identifier.flag.has_left_justify)
 	{
-		print_string("0x");
-		print_pointer(nb);
-		print_space(size - (ft_nbhex_len(nb) + 2));
+		count += print_string("0x");
+		count += print_pointer(nb);
+		count += print_space(size - count);
 	}
 	else
 	{
-		print_space(size - (ft_nbhex_len(nb) + 2));
-		print_string("0x");
-		print_pointer(nb);
+		count += print_space(size - (ft_nbhex_len(nb) + 2));
+		count += print_string("0x");
+		count += print_pointer(nb);
 	}
-	return (size);
+	return (count);
 }

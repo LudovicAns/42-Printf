@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   upperx_process.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lanselin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/30 08:26:00 by lanselin          #+#    #+#             */
+/*   Updated: 2021/04/30 08:26:02 by lanselin         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 /*
@@ -116,13 +128,6 @@ static int	get_precision_size(t_identifier identifier)
 		&& identifier.print_settings.precision_width >= 0)
 		psize = identifier.print_settings.precision_width;
 	return (psize);
-}
-
-static int	ft_abs(int i)
-{
-	if (i < 0)
-		return (i * -1);
-	return (i);
 }
 
 static void	*get_funcomplete(t_identifier identifier)

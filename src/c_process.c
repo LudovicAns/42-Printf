@@ -1,5 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   c_process.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lanselin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/30 08:25:04 by lanselin          #+#    #+#             */
+/*   Updated: 2021/04/30 08:25:06 by lanselin         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 #include "process_utils.h"
+
+/*
+ * Function: get_print_size						1/5
+ * ----------------------------------------
+ *   Return size of print.
+ *
+ *   identifier: identifier
+ *
+ *   returns: size of print.
+ */
+static int	get_print_size(t_identifier identifier)
+{
+	int	size;
+
+	size = 1;
+	if (identifier.has_print_settings
+		&& identifier.print_settings.has_min_field_width
+		&& identifier.print_settings.min_field_width != 0)
+		size = identifier.print_settings.min_field_width;
+	return (size);
+}
 
 /*
  * Function: process_c							2/5
@@ -16,12 +49,8 @@ int	process_c(t_identifier identifier, va_list args)
 	int		size;
 	char	c;
 
-	size = 1;
+	size = get_print_size(identifier);
 	c = va_arg(args, int);
-	if (identifier.has_print_settings
-		&& identifier.print_settings.has_min_field_width
-		&& identifier.print_settings.min_field_width != 0)
-		size = identifier.print_settings.min_field_width;
 	if (size < 0)
 	{
 		size *= -1;
