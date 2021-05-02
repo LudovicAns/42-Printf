@@ -100,12 +100,9 @@ static int	get_psize(t_identifier identifier, char *string)
  *
  *   returns: number of printed chars.
  */
-static int	print_null_pointer(t_identifier identifier, int psize)
+static int	print_null_pointer(int psize)
 {
-	identifier = identifier;
-	if (psize < 6 && psize >= 0)
-		return (0);
-	return (print_string("(null)"));
+	return (custom_print_string("(null)", psize));
 }
 
 /*
@@ -138,7 +135,7 @@ int	process_s(t_identifier identifier, va_list args)
 		}
 		else
 		{
-			count += print_null_pointer(identifier, psize);
+			count += print_null_pointer(psize);
 			count += print_space(size - count);
 		}
 	}
@@ -151,7 +148,7 @@ int	process_s(t_identifier identifier, va_list args)
 		if (string)
 			count += custom_print_string(string, psize);
 		else
-			count += print_null_pointer(identifier, psize);
+			count += print_null_pointer(psize);
 	}
 	return (count);
 }

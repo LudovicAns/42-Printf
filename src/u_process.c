@@ -117,13 +117,6 @@ static int	get_precision_size(t_identifier identifier)
 	return (psize);
 }
 
-static int	ft_abs(int i)
-{
-	if (i < 0)
-		return (i * -1);
-	return (i);
-}
-
 static void	*get_funcomplete(t_identifier identifier)
 {
 	if (identifier.has_flag && identifier.flag.has_zero_filler)

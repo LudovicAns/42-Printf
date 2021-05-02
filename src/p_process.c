@@ -14,6 +14,8 @@ static int	ft_nbhex_len(unsigned long int nb)
 	int	count;
 
 	count = 0;
+	if (nb == 0)
+		return (1);
 	while (nb)
 	{
 		nb /= 16;
@@ -75,34 +77,6 @@ static int	get_size(t_identifier identifier, unsigned long int nb)
 }
 
 /*
- * Function: print_null_pointer						4/5
- * ----------------------------------------
- *   Print for null pointer.
- *
- *   identifier: identifier
- *   size: print size
- *
- *   returns: number of printed chars.
- */
-static int	print_null_pointer(t_identifier identifier, int size)
-{
-	if (identifier.has_flag && identifier.flag.has_left_justify)
-	{
-		print_string("(nil)");
-		print_space(size - 5);
-	}
-	else
-	{
-		print_space(size - 5);
-		print_string("(nil)");
-	}
-	if (size > 5)
-		return (size);
-	else
-		return (5);
-}
-
-/*
  * Function: process_p							5/5
  * ----------------------------------------
  *   Process identifier using p argument type.
@@ -119,8 +93,6 @@ int	process_p(t_identifier identifier, va_list args)
 
 	nb = va_arg(args, unsigned long int);
 	size = get_size(identifier, nb);
-	if (nb == 0)
-		return (print_null_pointer(identifier, size));
 	if (identifier.has_flag && identifier.flag.has_left_justify)
 	{
 		print_string("0x");

@@ -2,6 +2,27 @@
 #include "process_utils.h"
 
 /*
+ * Function: get_size							1/5
+ * ----------------------------------------
+ *   Return total printed size.
+ *
+ *   identifier: identifier
+ *
+ *   returns: number of printed chars.
+ */
+static int	get_size(t_identifier identifier)
+{
+	int	size;
+
+	size = 1;
+	if (identifier.has_print_settings
+		&& identifier.print_settings.has_min_field_width
+		&& identifier.print_settings.min_field_width != 0)
+		size = identifier.print_settings.min_field_width;
+	return (size);
+}
+
+/*
  * Function: process_c							2/5
  * ----------------------------------------
  *   Process identifier using c argument type.
@@ -16,12 +37,8 @@ int	process_c(t_identifier identifier, va_list args)
 	int		size;
 	char	c;
 
-	size = 1;
+	size = get_size(identifier);
 	c = va_arg(args, int);
-	if (identifier.has_print_settings
-		&& identifier.print_settings.has_min_field_width
-		&& identifier.print_settings.min_field_width != 0)
-		size = identifier.print_settings.min_field_width;
 	if (size < 0)
 	{
 		size *= -1;

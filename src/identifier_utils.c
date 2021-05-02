@@ -21,6 +21,34 @@ t_boolean	is_format_identifier(char c)
 	return (state);
 }
 
+static t_identifier	get_identifier_fill(t_identifier identifier)
+{
+	t_flag				flag;
+	t_print_settings	print_settings;
+
+	flag = identifier.flag;
+	print_settings = identifier.print_settings;
+	if (flag.has_blank_on_positive || flag.has_force_positive
+		|| flag.has_left_justify || flag.has_sharp || flag.has_zero_filler)
+		identifier.has_flag = TRUE;
+	else
+		identifier.has_flag = FALSE;
+	if (print_settings.has_min_field_width
+		|| print_settings.has_precision_width)
+		identifier.has_print_settings = TRUE;
+	else
+		identifier.has_print_settings = FALSE;
+	if (identifier.has_print_settings
+		&& identifier.print_settings.has_min_field_width
+		&& identifier.print_settings.min_field_width < 0)
+	{
+		identifier.print_settings.min_field_width *= -1;
+		identifier.has_flag = TRUE;
+		identifier.flag.has_left_justify = TRUE;
+	}
+	return (identifier);
+}
+
 /*
  * Function: get_identifier						2/5
  * ----------------------------------------
@@ -47,24 +75,7 @@ t_identifier	get_identifier(char *start_address, va_list args)
 	start_address = skip_print_settings(start_address);
 	argument_type = get_argument_type(*start_address);
 	identifier.argument_type = argument_type;
-	if (flag.has_blank_on_positive || flag.has_force_positive
-		|| flag.has_left_justify || flag.has_sharp || flag.has_zero_filler)
-		identifier.has_flag = TRUE;
-	else
-		identifier.has_flag = FALSE;
-	if (print_settings.has_min_field_width
-		|| print_settings.has_precision_width)
-		identifier.has_print_settings = TRUE;
-	else
-		identifier.has_print_settings = FALSE;
-	if (identifier.has_print_settings
-		&& identifier.print_settings.has_min_field_width
-		&& identifier.print_settings.min_field_width < 0)
-	{
-		identifier.print_settings.min_field_width *= -1;
-		identifier.has_flag = TRUE;
-		identifier.flag.has_left_justify = TRUE;
-	}
+	identifier = get_identifier_fill(identifier);
 	return (identifier);
 }
 

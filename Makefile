@@ -12,7 +12,8 @@ SRC = argument_type_utils.c \
 		ft_printf_utils_1.c \
 		ft_printf.c \
 		identifier_utils.c \
-		print_settings_utils.c \
+		print_settings_utils_1.c \
+		print_settings_utils_2.c \
 		process_utils_1.c \
 		process_utils_2.c \
 		c_process.c \
