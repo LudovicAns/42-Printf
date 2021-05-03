@@ -22,9 +22,13 @@ SRC = argument_type_utils.c \
 		i_process.c \
 		p_process.c \
 		percentage_process.c \
+		s_process_utils_1.c \
 		s_process.c \
+		u_process_utils_1.c \
 		u_process.c \
+		x_process_utils_1.c \
 		x_process.c \
+		upperx_process_utils_1.c \
 		upperx_process.c
 OBJDIR = obj
 OBJ = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))

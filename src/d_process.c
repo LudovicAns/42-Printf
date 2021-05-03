@@ -140,8 +140,6 @@ int	get_precision_size_d(t_identifier identifier)
  *   i[1] : total print size
  *   i[2] : precision size
  *   i[3] : count
- * 
- *   %-0*.*d
  *
  *   returns: number of printed chars.
  */

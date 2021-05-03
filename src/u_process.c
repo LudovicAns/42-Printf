@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   u_process.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lanselin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/03 09:58:39 by lanselin          #+#    #+#             */
+/*   Updated: 2021/05/03 09:58:40 by lanselin         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "u_process.h"
 #include "ft_printf.h"
 
 /*
@@ -10,7 +23,7 @@
  *
  *   returns: lenght of the number depending of take_neg.
  */
-static unsigned int	ft_custom_nbrlen(unsigned int nb)
+unsigned int	ft_custom_nbrlen_u(unsigned int nb)
 {
 	unsigned int	nui;
 	unsigned int	i;
@@ -37,18 +50,18 @@ static unsigned int	ft_custom_nbrlen(unsigned int nb)
  *
  *   returns: string
  */
-static char	*ft_custom_itoa(unsigned int nb)
+char	*ft_custom_itoa_u(unsigned int nb)
 {
 	unsigned int	nui;
 	char			*out;
 	int				i;
 
-	out = (char *)malloc(sizeof(char) * (ft_custom_nbrlen(nb) + 1));
+	out = (char *)malloc(sizeof(char) * (ft_custom_nbrlen_u(nb) + 1));
 	if (!out)
 		return (NULL);
 	i = 0;
 	nui = nb;
-	i = ft_custom_nbrlen(nb) - 1;
+	i = ft_custom_nbrlen_u(nb) - 1;
 	while (nui)
 	{
 		out[i--] = (nui % 10) + '0';
@@ -56,7 +69,7 @@ static char	*ft_custom_itoa(unsigned int nb)
 	}
 	if (nb == 0)
 		out[i] = '0';
-	out[ft_custom_nbrlen(nb)] = '\0';
+	out[ft_custom_nbrlen_u(nb)] = '\0';
 	return (out);
 }
 
@@ -70,7 +83,7 @@ static char	*ft_custom_itoa(unsigned int nb)
  *
  *   returns: final size
  */
-static int	get_print_size(t_identifier identifier, int nb)
+int	get_print_size_u(t_identifier identifier, int nb)
 {
 	int	size;
 
@@ -92,7 +105,7 @@ static int	get_print_size(t_identifier identifier, int nb)
 			size = identifier.print_settings.precision_width;
 	}
 	else
-		size = ft_custom_nbrlen(nb);
+		size = ft_custom_nbrlen_u(nb);
 	return (size);
 }
 
@@ -105,7 +118,7 @@ static int	get_print_size(t_identifier identifier, int nb)
  *
  *   returns: size of precision and 0 if no precision size.
  */
-static int	get_precision_size(t_identifier identifier)
+int	get_precision_size_u(t_identifier identifier)
 {
 	int	psize;
 
@@ -115,22 +128,6 @@ static int	get_precision_size(t_identifier identifier)
 		&& identifier.print_settings.precision_width >= 0)
 		psize = identifier.print_settings.precision_width;
 	return (psize);
-}
-
-static void	*get_funcomplete(t_identifier identifier)
-{
-	if (identifier.has_flag && identifier.flag.has_zero_filler)
-	{
-		if (identifier.flag.has_left_justify)
-			return (print_space);
-		else if (identifier.has_print_settings
-			&& identifier.print_settings.has_precision_width
-			&& identifier.print_settings.precision_width >= 0)
-			return (print_space);
-		else
-			return (print_zero);
-	}
-	return (print_space);
 }
 
 /*
@@ -145,8 +142,6 @@ static void	*get_funcomplete(t_identifier identifier)
  *   i[1] : total print size
  *   i[2] : precision size
  *   i[3] : count
- * 
- *   %-0*.*d
  *
  *   returns: number of printed chars.
  */
@@ -157,55 +152,19 @@ int	process_u(t_identifier identifier, va_list args)
 	int				(*complete)(int);
 
 	i[0] = va_arg(args, unsigned int);
-	i[1] = get_print_size(identifier, i[0]);
-	i[2] = get_precision_size(identifier);
+	i[1] = get_print_size_u(identifier, i[0]);
+	i[2] = get_precision_size_u(identifier);
 	i[3] = 0;
-	number = ft_custom_itoa(i[0]);
-	complete = get_funcomplete(identifier);
+	number = ft_custom_itoa_u(i[0]);
+	complete = get_funcomplete_u(identifier);
 	if (identifier.flag.has_blank_on_positive)
 		i[3] += print_space(1);
 	if (identifier.has_flag && identifier.flag.has_left_justify)
-	{
-		if (identifier.flag.has_force_positive)
-			i[3] += print_char('+');
-		i[3] += print_zero(i[2] - ft_custom_nbrlen(i[0]));
-		if (!(identifier.has_print_settings
-				&& identifier.print_settings.has_precision_width
-				&& identifier.print_settings.precision_width == 0 && i[0] == 0))
-			i[3] += print_string(number);
-		if (i[3] < i[1])
-			i[3] += complete(i[1] - i[3]);
-	}
+		i[3] = left_justify_u(identifier, complete, number, i[3], i[0]);
 	else
 	{
-		if (ft_custom_nbrlen(i[0]) < i[1] && i[1] > i[2])
-		{
-			if (i[2] < ft_custom_nbrlen(i[0]))
-			{
-				if (identifier.flag.has_force_positive && i[3] == 0)
-					i[3] += complete((i[1] - i[3])
-							- ft_abs(i[2] - ft_custom_nbrlen(i[0])) - i[2] - 1);
-				else
-					i[3] += complete((i[1] - i[3])
-							- ft_abs(i[2] - ft_custom_nbrlen(i[0])) - i[2]);
-			}
-			else
-			{
-				if (identifier.flag.has_force_positive && i[3] == 0)
-					i[3] += complete((i[1] - i[3]) - i[2] - 1);
-				else
-					i[3] += complete((i[1] - i[3]) - i[2]);
-			}
-		}
-		if (identifier.flag.has_force_positive)
-			i[3] += print_char('+');
-		i[3] += print_zero(i[2] - ft_custom_nbrlen(i[0]));
-		if (!(identifier.has_print_settings
-				&& identifier.print_settings.has_precision_width
-				&& identifier.print_settings.precision_width == 0 && i[0] == 0))
-			i[3] += print_string(number);
-		else
-			i[3] += complete(i[1] - i[3]);
+		i[3] = process_spaces_u(identifier, complete, i[3], i[0]);
+		i[3] = process_number_u(identifier, complete, number, i[3], i[0]);
 	}
 	free(number);
 	return (i[3]);

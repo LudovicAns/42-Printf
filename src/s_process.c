@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   s_process.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lanselin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/03 09:58:17 by lanselin          #+#    #+#             */
+/*   Updated: 2021/05/03 09:58:18 by lanselin         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "s_process.h"
 #include "ft_printf.h"
 
 /*
@@ -10,7 +23,7 @@
  *
  *   returns: number of printed chars.
  */
-static int	custom_print_string(char *string, int max)
+int	custom_print_string_s(char *string, int max)
 {
 	int	count;
 
@@ -91,21 +104,6 @@ static int	get_psize(t_identifier identifier, char *string)
 }
 
 /*
- * Function: print_null_pointer						5/5
- * ----------------------------------------
- *   Print for null pointer.
- *
- *   identifier: identifier
- *   size: print size
- *
- *   returns: number of printed chars.
- */
-static int	print_null_pointer(int psize)
-{
-	return (custom_print_string("(null)", psize));
-}
-
-/*
  * Function: process_s							6/5
  * ----------------------------------------
  *   Process identifier using s argument type.
@@ -127,18 +125,7 @@ int	process_s(t_identifier identifier, va_list args)
 	size = get_print_size(identifier, string);
 	psize = get_psize(identifier, string);
 	if (identifier.has_flag && identifier.flag.has_left_justify)
-	{
-		if (string)
-		{
-			count += custom_print_string(string, psize);
-			count += print_space(size - count);
-		}
-		else
-		{
-			count += print_null_pointer(psize);
-			count += print_space(size - count);
-		}
-	}
+		count = left_justify_s(string, count, size, psize);
 	else
 	{
 		if (psize < ft_strlen(string) && psize >= 0)
@@ -146,7 +133,7 @@ int	process_s(t_identifier identifier, va_list args)
 		else
 			count += print_space(size - ft_strlen(string));
 		if (string)
-			count += custom_print_string(string, psize);
+			count += custom_print_string_s(string, psize);
 		else
 			count += print_null_pointer(psize);
 	}

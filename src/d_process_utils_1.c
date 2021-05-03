@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   d_process_utils_1.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lanselin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/03 09:56:00 by lanselin          #+#    #+#             */
+/*   Updated: 2021/05/03 09:56:01 by lanselin         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "d_process.h"
 #include "identifier.h"
 #include "process_utils.h"
 
 int	left_justify_d(t_identifier identifier, int (*complete)(int), char *number,
-					int count, int nb)
+	int count, int nb)
 {
 	int	i[3];
 
